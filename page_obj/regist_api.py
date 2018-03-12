@@ -24,6 +24,11 @@ class Regist():
         }
         r=self.session.post(url,json=body,headers=h)
         return r
+    def is_regist_sucess(self,Expect ,Actual):
+        if Expect in Actual:
+            return True
+        else:
+            return False
 
 if __name__ == "__main__":
     from page_obj.login_api import *
