@@ -39,7 +39,7 @@ class Login():
 if __name__ == "__main__":
     s = requests.session()
     login = Login(s)                    # 实例化
-    r = login.login_post('16849671','bhs@mangohm')
+    r = login.login_post('168496714','bhs@mangohm')
     print(r.content)                    # 查看返回值
     data = r.json()                     # json化方便字典提取
     res = str(data["cnmsg"]) # 字典提取登陆成功账号
