@@ -40,21 +40,20 @@ class Order():
         return r
 
 if __name__ == "__main__":
-    # from page_obj.login_api import *
-    # s=requests.session()
-    # login = Login(s)
-    # r = login.login_post('168496714', 'bhs@mangohm')
-    # # 下单
-    # start_unix = time.time()                             # 获取时间戳
-    # #获取两个月后的时间
-    # unix=datetime.datetime.now().replace(month=int(datetime.datetime.now().strftime('%m'))+3)
-    # end_unix=int(time.mktime(unix.timetuple()))          # 转化为时间戳
-    # order=Order(s)
-    # r=order.order_post("爱情公寓2","有米大楼",start_unix,end_unix)
-    # data=r.json()
-    # print(data)
-    with open(r"C:\Users\27576\Desktop\449.jpg","rb") as f:
-        print(f)
+    from page_obj.login_api import *
+    s=requests.session()
+    login = Login(s)
+    r = login.login_post('168496714', 'bhs@mangohm')
+    # 下单
+    start_unix = time.time()                             # 获取时间戳
+    #获取三个月后的时间
+    unix=datetime.datetime.now().replace(month=int(datetime.datetime.now().strftime('%m'))+3)
+    end_unix=int(time.mktime(unix.timetuple()))          # 转化为时间戳
+    order=Order(s)
+    r=order.order_post("爱情公寓5","有米大楼",start_unix,end_unix)
+    data=r.json()
+    print(data)
+
 
     # 时间戳转为时间
     # print(datetime.datetime.fromtimestamp(t2))
