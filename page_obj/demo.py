@@ -2,7 +2,7 @@
 from selenium import webdriver
 import requests
 import time,datetime
-
+import base64
 class Order():
     def __init__(self,s):
         self.session = s
@@ -40,65 +40,91 @@ class Order():
         return r
 
 
-    def post_url(self,url2,token,img_base64):
+    def img_post(self,url2,token,img_base64):
         url=url2
         h = {
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
+            # "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             # "Cookie":"sid=442gtsadk9smvaq3xwwdvtguh84dmtm3"
             'Content-Type':"application/x-www-form-urlencoded",
-            "Authorization": "UpToken"+token,
+            "Authorization": "UpToken "+token,
             "Host": 'up-z2.qiniu.com',
         }
-        const_body=img_base64
-        r=self.session.post(url,headers=h,files=const_body)
+        body=img_base64
+        r=self.session.post(url,data=body,headers=h)
+        return r
+
+    def order_end(self,orderId,examine_pics):
+        url = "https://idev.bhsgd.net/jgx/client/order/verify"
+        h = {
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
+            "Content-Type": "application/json",
+            "Connection": "keep-alive",
+            "Accept-Encoding": "gzip, deflate, br"
+            # "Cookie":"sid=442gtsadk9smvaq3xwwdvtguh84dmtm3"
+        }
+        body = {
+            "data": {
+                "orderId": orderId,
+                "examine_pics":examine_pics
+            }
+        }
+        r = self.session.post(url, json=body, headers=h)
         return r
 
 if __name__ == "__main__":
-    # from page_obj.login_api import *
-    # s=requests.session()
-    # login = Login(s)
-    # r = login.login_post('168496714', 'bhs@mangohm')
-    # # 下单
-    # start_unix = time.time()                             # 获取时间戳
-    # #获取三个月后的时间
-    # unix=datetime.datetime.now().replace(month=int(datetime.datetime.now().strftime('%m'))+3)
-    # end_unix=int(time.mktime(unix.timetuple()))          # 转化为时间戳
-    # order=Order(s)
-    # r=order.order_post("爱情公寓5","有米大楼",start_unix,end_unix)
-    # data=r.json()
-    # print(data)
-    # # 获取订单编号
-    # order_id=data["data"]["orderId"]
-    # import base64,os
-    # #图片转base64
-    # with open("123.png", "rb") as f:
-    #     base64_data = base64.b64encode(f.read())
-    # print("图片base64 :%s"%base64_data)
+    from page_obj.login_api import *
+    s=requests.session()
+    login = Login(s)
+    r = login.login_post('168496714', 'bhs@mangohm')
+    # 下单
+    start_unix = time.time()                             # 获取时间戳
+    #获取三个月后的时间
+    unix=datetime.datetime.now().replace(month=int(datetime.datetime.now().strftime('%m'))+3)
+    end_unix=int(time.mktime(unix.timetuple()))          # 转化为时间戳
+    order=Order(s)
+    r=order.order_post("爱情公寓5","有米大楼",start_unix,end_unix)
+    data=r.json()
+    print(data)
+    # 获取订单编号
+    order_id=data["data"]["orderId"]
+    import base64,os
+    #图片转base64
+    with open("123.png", "rb") as f:
+        base64_data = base64.b64encode(f.read())
+    # 上传订单
+    img_url=[]
+    n=0
+    while n<2:
+        url="https://idev.bhsgd.net/jgx/client/order/examine/%s"%order_id
+        res2=s.post(url)
+        data=res2.json()
+        key=data["data"]["key"]
+        # key转base64
+        base_key=base64.b64encode(key.encode('iso-8859-15'))
+        # base64转utf-8
+        str_key=base_key.decode('utf-8')
+        token=data["data"]["token"]
+
+        url2="http://upload-z2.qiniup.com/putb64/-1/key/%s"%str_key
+
+        r4=order.img_post(url2,token,base64_data)
+        img_data=r4.json()
+        print(img_data["data"]["url"])
+        img_url.append(img_data["data"]["url"])
+        n+=1
+
+    r5=order.order_end(order_id,img_url)
+    print(r5.content)
+
+
+
+
+
+    # a="oe/6c3s2mo2lvcnwr6nhghsir66xmcpxwd3"
+    # print(a.encode('iso-8859-15'))
+    # me = base64.b64encode(a.encode('iso-8859-15'))
     #
-    # url="https://idev.bhsgd.net/jgx/client/order/examine/%s"%order_id
-    # print("获取图片的key和token： %s"%url)
-    #
-    # res2=s.post(url)
-    # data=res2.json()
-    # key=data["data"]["key"]
-    # print(key)
-    # token=data["data"]["token"]
-    #
-    # url2="http://upload-z2.qiniup.com/putb64/-1/key/%s"%base64_data
-    #
-    # print(url2)
-
-    import base64
-    a="oe/6c3s2mo2lvcnwr6nhghsir66xmcpxwd3"
-    me = base64.b64encode(a)
-
-    print(me)
-
-    # print(order.post_url(url2,token,base64_data))
-
-
-
-
+    # print(me)
     # imgdata = base64.b64decode(base64_data)
     # # base64转图片
     # with open(os.getcwd()+"//1234.png", "wb") as f:
