@@ -2,12 +2,14 @@
 from selenium import webdriver
 import requests
 
+host="https://idev.bhsgd.net/"
+# host="https://insurance.chinavanda.com/"
 class Login():
     def __init__(self,s):
         self.session = s
 
     def login_post(self,username,psw):
-        url = "https://idev.bhsgd.net/jgx/client/holduser/login"
+        url = host+"jgx/client/holduser/login"
         h = {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",
@@ -39,7 +41,7 @@ class Login():
 if __name__ == "__main__":
     s = requests.session()
     login = Login(s)                    # 实例化
-    r = login.login_post('168496714','bhs@mangohm')
+    r = login.login_post('god','bhs@mangohm')
     print(r.content)                    # 查看返回值
     data = r.json()                     # json化方便字典提取
     res = str(data["cnmsg"]) # 字典提取登陆成功账号

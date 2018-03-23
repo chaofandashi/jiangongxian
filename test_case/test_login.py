@@ -14,14 +14,14 @@ class Test_login(unittest.TestCase):
     def test_login1_normal(self):
         u'''正确账号密码登陆'''
         login = Login(self.s)
-        r = login.login_post('168496714', 'bhs@mangohm')           #登陆
+        r = login.login_post('god', 'bhs@mangohm')           #登陆
         data = r.json()                                           # json化方便字典提取
         res = str(data["data"]["username"])                       # 字典提取登陆成功账号进行断言
-        print(login.is_login_sucess('168496714', res))            # 断言
+        print(login.is_login_sucess('god', res))            # 断言
     def test_login2_error(self):
         u'''正确账号错误密码登陆'''
         login=Login(self.s)
-        r=login.login_post("qq996","11111")                       #登陆
+        r=login.login_post("qq9965","11111")                       #登陆
         data = r.json()                                           # json化方便字典提取
         res = str(data["cnmsg"])                                  # 字典提取登陆失败信息进行断言
         print(login.is_login_fail(u"密码输入错误",u"密码错误",res))  # 断言

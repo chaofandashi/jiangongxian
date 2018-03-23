@@ -1,12 +1,13 @@
 #-*-coding:utf-8-*- 
 from selenium import webdriver
 import requests
-
+host="https://idev.bhsgd.net/"
+# host="https://insurance.chinavanda.com/"
 class Regist():
     def __init__(self,s):
         self.session=s
     def regist_post(self,username,psw1,psw2,introduce):
-        url="https://idev.bhsgd.net/jgx/client/holduser/regist"
+        url=host+"jgx/client/holduser/regist"
         h={
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",

@@ -3,6 +3,8 @@ from selenium import webdriver
 import requests
 import time,datetime
 import base64
+host="https://idev.bhsgd.net/"
+# host="https://insurance.chinavanda.com/"
 class Order():
     def __init__(self,s):
         self.session = s
@@ -12,7 +14,7 @@ class Order():
         # 获取month个月后的时间
         unix = datetime.datetime.now().replace(month=int(datetime.datetime.now().strftime('%m')) + month)
         time_end = int(time.mktime(unix.timetuple()))  # 转化为时间戳
-        url="https://idev.bhsgd.net/jgx/client/order/begin"
+        url=host+"jgx/client/order/begin"
         h = {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",
@@ -36,9 +38,9 @@ class Order():
                  "dead_cost": "2000",
                  "hury_cost": "3000",
                  "hostipal_cost": "4000",
-                 "phone": "13076220975",
+                 "phone": "",
                  "agreement": 1,
-                 "productId": 2
+                 "productId": 1
                  }
         }
         r=self.session.post(url,json=body,headers=h)
@@ -48,7 +50,7 @@ class Order():
         return order_id
     # 获取七牛key和token
     def order_key_token(self,order_id):
-        url = "https://idev.bhsgd.net/jgx/client/order/examine/"+order_id
+        url = host+"jgx/client/order/examine/"+order_id
         h = {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",
@@ -83,7 +85,7 @@ class Order():
         return img_url
     # 提交订单
     def order_end(self,orderId,examine_pics):
-        url = "https://idev.bhsgd.net/jgx/client/order/verify"
+        url = host+"jgx/client/order/verify"
         h = {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",
@@ -102,7 +104,7 @@ if __name__ == "__main__":
     from page_obj.login_api import *
     s=requests.session()
     login = Login(s)
-    login.login_post('168496714', 'bhs@mangohm')                  # 登录
+    login.login_post('god', 'bhs@mangohm')                        # 登录
     order=Order(s)                                                # 下单
     order_id=order.order_post("爱情公寓5","有米大楼",5)             # 保单填写 并获取订单id
     with open("../test_data/order_img/123.png", "rb") as f:                              # 图片转base64
