@@ -21,9 +21,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()
-        data=r.json()
-        introduce_code=data["data"]["introduceCode"]
+        introduce_code=introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post(self.username,"123456","123456",introduce_code)
@@ -36,9 +34,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post("test10017","123456","123456",introduce_code)#注册
@@ -51,9 +47,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post(self.username,"123456","123456",introduce_code) # 注册1使用内推码
@@ -77,9 +71,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post("","123456","123456",introduce_code)         #注册1使用内推码
@@ -92,9 +84,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post("qwer1234","","",introduce_code)         #注册1使用内推码
@@ -107,9 +97,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post("qwer12345","qwerqwerqwer123456","qwerqwerqwer123456",introduce_code)#注册1使用内推码
@@ -125,9 +113,7 @@ class Test_regist(unittest.TestCase):
         login.login_post('god', 'bhs@mangohm')
         # 获取内推码
         introduce=Introduce(self.s)
-        r=introduce.introduce_post()                                        #获取内推码
-        data=r.json()                                                       #json化方便字典提取
-        introduce_code=data["data"]["introduceCode"]                        #赋值内推码
+        introduce_code = introduce.introduce_post()
         # 注册
         regist=Regist(self.s)
         res=regist.regist_post("qwerqwerqwer123456","123456","qwerqwerqwer123456",introduce_code)#注册1使用内推码

@@ -1,15 +1,14 @@
 #-*-coding:utf-8-*- 
 from selenium import webdriver
 import requests
+from page_obj.host_api import *
 
-host="https://idev.bhsgd.net/"
-# host="https://insurance.chinavanda.com/"
 class Login():
     def __init__(self,s):
         self.session = s
 
     def login_post(self,username,psw):
-        url = host+"jgx/client/holduser/login"
+        url = host+"/jgx/client/holduser/login"
         h = {
             "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
             "Content-Type": "application/json",
